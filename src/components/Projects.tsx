@@ -66,6 +66,18 @@ export default function Projects() {
       featured: false,
       status: "In Development",
     },
+    {
+      id: 6,
+      title: "Plant Health Monitoring",
+      description:
+        "An IoT-integrated mobile application for monitoring plant health by collecting real-time data from three sensors: moisture, temperature, and light. Data is sent to Supabase and retrieved using Dart, providing users with a dashboard to monitor environmental conditions essential for optimal plant growth.",
+      technologies: ["Push Notifications", "Dart", "Supabase"],
+      category: "mobile",
+      github: "https://github.com/KiyoScript/PlantHealthMonitoring",
+      live: null,
+      featured: false,
+      status: "Completed",
+    }
   ]
 
   const categories = [
