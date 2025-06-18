@@ -248,7 +248,7 @@ export default function Projects() {
                 Get In Touch
               </a>
               <a
-                href="https://github.com/KiyoScript"
+                href="https://github.com/KiyoScript?tab=repositories"
                 className="border-2 border-white text-white px-8 py-3 rounded-lg hover:bg-white hover:text-red-500 transition-colors font-medium"
               >
                 View All Projects
