@@ -12,7 +12,7 @@ export default function Experience() {
     },
     {
       title: "WEB DEVELOPER",
-      company: "Bootyard (innov8trix)",
+      company: "Bootyard",
       period: "2023-2024",
       description:
         "Worked in a fast-paced development environment, gaining deep expertise in the Ruby on Rails ecosystem, including Turbo Drive and Hotwire Stimulus, to build modern, high-performance web applications.",
