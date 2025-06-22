@@ -5,7 +5,7 @@ export default function Experience() {
     {
       title: "CO-FOUNDER",
       company: "HOP Delivery Services",
-      period: "2025-present",
+      period: "Jan 2025-present",
       description:
         "Developed and maintained the backend using Ruby on Rails API. Built frontend applications using Expo and React Native. Optimized web application performance and scalability. Integrated RESTful APIs to enhance app functionalities.",
       current: true,
@@ -13,7 +13,7 @@ export default function Experience() {
     {
       title: "WEB DEVELOPER",
       company: "Bootyard",
-      period: "2023-2024",
+      period: "Jan 2023- Jan 2024",
       description:
         "Worked in a fast-paced development environment, gaining deep expertise in the Ruby on Rails ecosystem, including Turbo Drive and Hotwire Stimulus, to build modern, high-performance web applications.",
       current: false,
