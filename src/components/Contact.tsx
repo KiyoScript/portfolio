@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Mail, Phone, MapPin, Github, Send } from "lucide-react"
+import { Mail, Phone, MapPin, Github, Send, CheckCircle, AlertCircle } from "lucide-react"
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,10 +11,33 @@ export default function Contact() {
     email: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+      )
+      const mailtoLink = `mailto:johnlloyddesape@gmail.com?subject=${subject}&body=${body}`
+
+      window.location.href = mailtoLink
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      setSubmitStatus("success")
+      setFormData({ name: "", email: "", message: "" })
+    } catch (error) {
+      console.error("Error sending email:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -101,6 +124,22 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="bg-white p-8 rounded-lg shadow-lg">
+            {/* Success Message */}
+            {submitStatus === "success" && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
+                <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                <p className="text-green-700">Message sent successfully! I&apos;ll get back to you soon.</p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {submitStatus === "error" && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                <p className="text-red-700">Failed to send message. Please try again or contact me directly.</p>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -113,7 +152,8 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="Your Name"
                 />
               </div>
@@ -129,7 +169,8 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200"
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -144,20 +185,45 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200 resize-vertical"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200 resize-vertical disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="Your message..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center font-medium"
+                disabled={isSubmitting}
+                className="w-full bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5 mr-2" />
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    Send Message
+                  </>
+                )}
               </button>
             </form>
+
+            {/* Alternative Contact Methods */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <p className="text-sm text-gray-600 text-center">
+                Or reach out directly via{" "}
+                <a href="mailto:johnlloyddesape@gmail.com" className="text-red-500 hover:underline">
+                  email
+                </a>{" "}
+                or{" "}
+                <a href="tel:09630515870" className="text-red-500 hover:underline">
+                  phone
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
